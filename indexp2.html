@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.5.3/d3.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/topojson/1.6.9/topojson.min.js"></script>
+    <script src="/datamaps.world.min.js"></script>
+    <script
+  src="https://code.jquery.com/jquery-3.3.1.js"
+  integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+  crossorigin="anonymous"></script>
+</head>
+<style>
+.square {
+  width: 50px;
+  height: 50px;
+  background-color: blue;
+  z-index: 1;
+  position: absolute;
+}
+</style>
+<body>
+  <div id="container" style="position: absolute; width: 1500px; height: 800px; z-index: -1;"></div>
+  <script>
+     var map = new Datamap({element: document.getElementById('container'),
+      fills: {
+        defaultFill: "#ABDDA4",
+        usedCountries: "#fa0fa0"
+      },
+      data: {
+          USA: { fillKey: "usedCountries" },
+          AUS: { fillKey: "usedCountries" },
+          BRA: { fillKey: "usedCountries" },
+          CAN: { fillKey: "usedCountries" },
+          GBR: { fillKey: "usedCountries" },
+          CHN: { fillKey: "usedCountries" },
+          FRA: { fillKey: "usedCountries" },
+          DEU: { fillKey: "usedCountries" },
+          POL: { fillKey: "usedCountries" },
+          RUS: { fillKey: "usedCountries" },
+      },
+      done: function(datamap) {
+            datamap.svg.selectAll('.datamaps-subunit').on('click', function(geography) {
+
+              if(geography.properties.name == "United States of America"){
+                geography.properties.name = "USA";
+              }
+              if(geography.properties.name == "United Kingdom"){
+                geography.properties.name = "GBR";
+              }
+              var name = geography.properties.name;
+              var natDataBox = name + "-dataBox";
+
+              if($(natDataBox).length > 0){
+                console.log("xd");
+                $(natDataBox).remove();
+                return;
+              }
+              var centroid = map.path.centroid(geography);
+              console.log(geography.properties.name);
+              console.log(centroid);
+
+              var dataBox = document.createElement(natDataBox);
+              var newX = centroid[0] + 50;
+              dataBox.innerHTML = '<div class="square" style="margin-left:' + newX + 'px' + ';' + ' margin-top:' + centroid[1] + 'px' + ';' + '"' + '>';
+              document.body.appendChild(dataBox);
+
+            });
+          }
+        });
+  </script>
+</body>
+</html>
