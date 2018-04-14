@@ -7,6 +7,7 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.5.3/d3.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/topojson/1.6.9/topojson.min.js"></script>
     <script src="/datamaps.world.min.js"></script>
+    <!-- <script src="//d3js.org/d3.v4.min.js"></script> -->
     <script
   src="https://code.jquery.com/jquery-3.3.1.js"
   integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
@@ -20,14 +21,55 @@
   z-index: 1;
   position: absolute;
 }
+
+@keyframes pop_box {
+    from {width: 0; height: 0;}
+    to {width: 300px; height: 200px;}
+}
+
+@keyframes close_box {
+    from {width: 300px; height: 200px;}
+    to {width: 0; height: 0;}
+}
+
+#container {
+  background-color: #1c2b44;
+}
+
+.datamaps_subunit:hover { 
+    background-color: #d7cec7;
+}
+.open_country_box {
+  animation-name: pop_box;
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+}
+.close_country_box{
+  animation-name: close_box;
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+}
+
+.country_box{
+  background-color: #c5c8cc;
+  border-radius: 20px;
+  z-index: 1;
+  position: absolute;
+  opacity: 0.8;
+}
+
+
 </style>
 <body>
   <div id="container" style="position: absolute; width: 1500px; height: 800px; z-index: -1;"></div>
+
   <script>
      var map = new Datamap({element: document.getElementById('container'),
       fills: {
-        defaultFill: "#ABDDA4",
-        usedCountries: "#fa0fa0"
+        // defaultFill: "#ABDDA4",
+        defaultFill: "#616977",
+        // usedCountries: "#fa0fa0"
+        usedCountries: "#7599d8"
       },
       data: {
           USA: { fillKey: "usedCountries" },
@@ -51,11 +93,18 @@
                 geography.properties.name = "GBR";
               }
               var name = geography.properties.name;
-              var natDataBox = name + "-dataBox";
+              var natDataBox = name.replace(" ","-") + "-dataBox";
+
+
 
               if($(natDataBox).length > 0){
                 console.log("xd");
-                $(natDataBox).remove();
+                document.getElementById(natDataBox).className = document.getElementById(natDataBox).className.replace( 'open_country_box' , '' );
+                document.getElementById(natDataBox).className += " close_country_box";
+                setTimeout( function(){
+                        $(natDataBox).remove()
+                },1001);
+                
                 return;
               }
               var centroid = map.path.centroid(geography);
@@ -64,12 +113,13 @@
 
               var dataBox = document.createElement(natDataBox);
               var newX = centroid[0] + 50;
-              dataBox.innerHTML = '<div class="square" style="margin-left:' + newX + 'px' + ';' + ' margin-top:' + centroid[1] + 'px' + ';' + '"' + '>';
+              dataBox.innerHTML = '<div id="'+natDataBox+'" class="country_box open_country_box" style="margin-left:' + newX + 'px' + ';' + ' margin-top:' + centroid[1] + 'px' + ';' + '"' + '>';
               document.body.appendChild(dataBox);
 
             });
           }
         });
+
   </script>
 </body>
 </html>
