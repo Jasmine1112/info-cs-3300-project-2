@@ -64,12 +64,13 @@
   <div id="container" style="position: absolute; width: 1500px; height: 800px; z-index: -1;"></div>
 
   <script>
+    var usedCountries_color = "#7599d8"
      var map = new Datamap({element: document.getElementById('container'),
       fills: {
         // defaultFill: "#ABDDA4",
         defaultFill: "#616977",
         // usedCountries: "#fa0fa0"
-        usedCountries: "#7599d8"
+        usedCountries: usedCountries_color
       },
       data: {
           USA: { fillKey: "usedCountries" },
@@ -83,6 +84,33 @@
           POL: { fillKey: "usedCountries" },
           RUS: { fillKey: "usedCountries" },
       },
+      geographyConfig: {
+        highlightFillColor: "#8fd8d2", 
+        //this is the customization template
+        // borderWidth: 1,
+        // borderOpacity: 1,
+        // borderColor: '#fff',
+        // popupOnHover: true,
+        // highlightOnHover: true,
+        // highlightFillColor: function(data) {
+        //   if (data.fillKey) {
+        //     return 'green';
+        //   }
+        //   return '#dbdbdb';
+        // },
+        // highlightBorderColor: '#fff',
+        // popupTemplate: function(geo, data) {
+        //   // don't show tooltip if country don't present in dataset
+        //   if (!data) {
+        //     return;
+        //   }
+        //   // tooltip content
+        //   return ['',
+        //           '<div class ="hoverinfo">' + geo.properties.name, ''
+        //          ].join('');
+        // }    
+      },
+      
       done: function(datamap) {
             datamap.svg.selectAll('.datamaps-subunit').on('click', function(geography) {
 
@@ -101,9 +129,11 @@
                 console.log("xd");
                 document.getElementById(natDataBox).className = document.getElementById(natDataBox).className.replace( 'open_country_box' , '' );
                 document.getElementById(natDataBox).className += " close_country_box";
+
                 setTimeout( function(){
-                        $(natDataBox).remove()
+                        $(natDataBox).remove();
                 },1001);
+                console.log($(natDataBox));
                 
                 return;
               }
@@ -112,11 +142,12 @@
               console.log(centroid);
 
               var dataBox = document.createElement(natDataBox);
-              var newX = centroid[0] + 50;
+              var newX = centroid[0];
               dataBox.innerHTML = '<div id="'+natDataBox+'" class="country_box open_country_box" style="margin-left:' + newX + 'px' + ';' + ' margin-top:' + centroid[1] + 'px' + ';' + '"' + '>';
               document.body.appendChild(dataBox);
 
             });
+
           }
         });
 
