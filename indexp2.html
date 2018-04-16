@@ -218,7 +218,28 @@ var countries;
 
 d3.json("https://unpkg.com/world-atlas@1/world/50m.json", function(error, world) {
   if (error) throw error;
-  countries = topojson.feature(world, world.objects.countries).features
+  var countries = topojson.feature(world, world.objects.countries).features;
+
+  svg.selectAll(".land")
+      .data(countries)
+    .enter().insert("path", ".graticule")
+      .attr("class", "land")
+      .attr("d", path)
+      .on("click", function(d){
+
+        searchString = '//countries[iso=' + d.id + ']/country';
+        console.log(searchString);
+        res = JSON.search(countryData, searchString);
+        console.log(res);
+
+        searchString = '//countries[iso=' + d.id + ']/genres';
+        console.log(searchString);
+        res = JSON.search(countryData, searchString);
+        console.log(res);
+
+      });
+  
+  /*countries = topojson.feature(world, world.objects.countries).features
 
   svg.insert("path", "graticule") //, "graticule"
       .datum(topojson.feature(world, world.objects.land))
@@ -246,7 +267,7 @@ d3.json("https://unpkg.com/world-atlas@1/world/50m.json", function(error, world)
         res = JSON.search(countryData, searchString);
         console.log(res);
 
-      });
+      });*/
       
 
 
@@ -271,11 +292,6 @@ d3.json("https://unpkg.com/world-atlas@1/world/50m.json", function(error, world)
 
 });
 */
-
-
-
-
-
 
 
   </script>
