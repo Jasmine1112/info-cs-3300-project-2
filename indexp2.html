@@ -69,7 +69,7 @@
 }
 
 .land {
-  fill: #222;
+  fill: black;
 }
 
 .boundary {
@@ -222,7 +222,7 @@ d3.json("https://unpkg.com/world-atlas@1/world/50m.json", function(error, world)
 
   svg.selectAll(".land")
       .data(countries)
-    .enter().insert("path", ".graticule")
+    .enter().insert("path", ".boundary")
       .attr("class", "land")
       .attr("d", path)
       .on("click", function(d){
@@ -237,8 +237,14 @@ d3.json("https://unpkg.com/world-atlas@1/world/50m.json", function(error, world)
         res = JSON.search(countryData, searchString);
         console.log(res);
 
+      })
+      .on("mouseover", function (d){
+        d3.select(this).style("fill", "blue");
+      })
+      .on("mouseout", function(d) {
+        d3.select(this).style("fill", "black")
       });
-  
+
   /*countries = topojson.feature(world, world.objects.countries).features
 
   svg.insert("path", "graticule") //, "graticule"
@@ -268,7 +274,7 @@ d3.json("https://unpkg.com/world-atlas@1/world/50m.json", function(error, world)
         console.log(res);
 
       });*/
-      
+
 
 
 });
