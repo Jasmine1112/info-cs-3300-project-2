@@ -1,1 +1,12 @@
-{"brazil": ["Shooter", "Strategy", "Open World"], "ger": ["Open World", "Shooter", "Atmospheric"], "aus": ["Open World", "Strategy", "Atmospheric"], "us": ["Open World", "Shooter", "Atmospheric"], "france": ["Shooter", "Open World", "Strategy"], "pol": ["Shooter", "Strategy", "Open World"], "china": ["Atmospheric", "Open World", "Shooter"], "can": ["Open World", "Strategy", "Atmospheric"], "uk": ["Open World", "Strategy", "Atmospheric"], "russia": ["Shooter", "Atmospheric", "Strategy"]}
+[{ "countries" : [
+  {"country" : "BRA", "genres": ["Shooter", "Strategy", "Open World"]},
+  {"country" : "DEU", "genres": ["Open World", "Shooter", "Atmospheric"]},
+  {"country" : "AUS", "genres": ["Open World", "Strategy", "Atmospheric"]},
+  {"country" : "USA", "test" : "lmao", "genres": ["Open World", "Shooter", "Atmospheric"]},
+  {"country" : "FRA", "genres": ["Shooter", "Open World", "Strategy"]},
+  {"country" : "POL", "genres": ["Shooter", "Strategy", "Open World"]},
+  {"country" : "CHN", "genres": ["Atmospheric", "Open World", "Shooter"]},
+  {"country" : "CAN", "genres": ["Open World", "Strategy", "Atmospheric"]},
+  {"country" : "GBR", "genres": ["Open World", "Strategy", "Atmospheric"]},
+  {"country" : "RUS", "genres": ["Shooter", "Atmospheric", "Strategy"]}
+]}]

@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <title>Title</title>
 
-    <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.5.3/d3.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/topojson/1.6.9/topojson.min.js"></script>
+    <script src="//d3js.org/d3.v4.0.0-alpha.50.min.js"></script>
+    <script src="//d3js.org/topojson.v1.min.js"></script>
     <script src="/datamaps.world.min.js"></script>
+    <script src="defiantJS.js"></script>
     <!-- <script src="//d3js.org/d3.v4.min.js"></script> -->
     <script
   src="https://code.jquery.com/jquery-3.3.1.js"
@@ -14,6 +15,7 @@
   crossorigin="anonymous"></script>
 </head>
 <style>
+/*
 .square {
   width: 50px;
   height: 50px;
@@ -36,7 +38,7 @@
   background-color: #1c2b44;
 }
 
-.datamaps_subunit:hover { 
+.datamaps_subunit:hover {
     background-color: #d7cec7;
 }
 .open_country_box {
@@ -57,13 +59,32 @@
   position: absolute;
   opacity: 0.8;
 }
+*/
+
+.graticule {
+  fill: none;
+  stroke: #777;
+  stroke-width: 0.5px;
+  stroke-opacity: 0.5;
+}
+
+.land {
+  fill: #222;
+}
+
+.boundary {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 0.5px;
+}
 
 
 </style>
 <body>
-  <div id="container" style="position: absolute; width: 1500px; height: 800px; z-index: -1;"></div>
+  <!--<<div id="container" style="position: absolute; width: 1500px; height: 800px; z-index: -1;"></div>-->
 
   <script>
+/*
     var usedCountries_color = "#7599d8"
      var map = new Datamap({element: document.getElementById('container'),
       fills: {
@@ -85,7 +106,7 @@
           RUS: { fillKey: "usedCountries" },
       },
       geographyConfig: {
-        highlightFillColor: "#8fd8d2", 
+        highlightFillColor: "#8fd8d2",
         //this is the customization template
         // borderWidth: 1,
         // borderOpacity: 1,
@@ -108,9 +129,9 @@
         //   return ['',
         //           '<div class ="hoverinfo">' + geo.properties.name, ''
         //          ].join('');
-        // }    
+        // }
       },
-      
+
       done: function(datamap) {
             datamap.svg.selectAll('.datamaps-subunit').on('click', function(geography) {
 
@@ -134,7 +155,7 @@
                         $(natDataBox).remove();
                 },1001);
                 console.log($(natDataBox));
-                
+
                 return;
               }
               var centroid = map.path.centroid(geography);
@@ -150,6 +171,109 @@
 
           }
         });
+        */
+
+var width = 960,
+    height = 480;
+
+var projection = d3.geoEquirectangular()
+    .scale(height / Math.PI)
+    .translate([width / 2, height / 2]);
+
+var path = d3.geoPath()
+    .projection(projection);
+
+var graticule = d3.geoGraticule();
+
+
+/*d3.json("world.json",function(error, world){
+if(error) throw error;
+countries = topojson.feature(world, world.objects.countries).features
+});*/
+
+//get country data, iso_a, name, etc.
+var countryData;
+$.getJSON("countryData.json", function(data){
+  countryData = data;
+  console.log(countryData);
+});
+
+//get gameInfo per country on iso_a
+var countryGameData;
+$.getJSON("country_top3_tags.json", function(data){
+  countryGameData = data;
+  console.log(countryGameData);
+});
+
+var svg = d3.select("body").append("svg")
+    .attr("width", width)
+    .attr("height", height);
+
+svg.append("path")
+    .datum(graticule)
+    .attr("class", "graticule") //, "graticule"
+    .attr("d", path);
+
+var countries;
+
+d3.json("https://unpkg.com/world-atlas@1/world/50m.json", function(error, world) {
+  if (error) throw error;
+  countries = topojson.feature(world, world.objects.countries).features
+
+  svg.insert("path", "graticule") //, "graticule"
+      .datum(topojson.feature(world, world.objects.land))
+      .attr("class", "land")
+      .attr("d", path);
+
+  svg.insert("path", "graticule") //, "graticule"
+      .datum(topojson.mesh(world, world.objects.countries, function(a, b) { return a !== b; }))
+      .attr("class", "boundary")
+      .attr("d", path);
+
+      d3.select("svg").selectAll("path")
+      .data(countries)
+      .enter().append("path")
+      .attr("d", path)
+      .on("click", function(d){
+        searchString = '//countries[iso=' + d.id + ']/country';
+        console.log(searchString);
+        res = JSON.search(countryData, searchString);
+        console.log(res);
+        searchString = '//countries[iso=' + d.id + ']/genres';
+        console.log(searchString);
+        res = JSON.search(countryData, searchString);
+        console.log(res);
+
+      });
+
+
+});
+
+/*
+        searchString2 = '//countries[country=' + isoVar + ']/genres';
+        console.log(searchString);
+        res2 = JSON.search(countryGameData, searchString2);
+        console.log(res2);
+
+      })
+      .on("mouseover",function(d){
+        var currentState = this;
+        d3.select(this).style('fill', "red");
+        console.log(d.id);
+        searchString = '//countries[iso=' + d.id + ']/iso_a';
+        res = JSON.search(countryData, searchString);
+        console.log(res);
+      });
+
+
+});
+*/
+
+
+
+
+
+
 
   </script>
 </body>
