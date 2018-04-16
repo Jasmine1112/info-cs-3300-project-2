@@ -69,7 +69,7 @@
 }
 
 .land {
-  fill: black;
+  fill: #DCDCDC;
 }
 
 .boundary {
@@ -208,12 +208,12 @@ $.getJSON("country_top3_tags.json", function(data){
 var svg = d3.select("body").append("svg")
     .attr("width", width)
     .attr("height", height);
-
+/*
 svg.append("path")
     .datum(graticule)
     .attr("class", "graticule") //, "graticule"
     .attr("d", path);
-
+*/
 var countries;
 
 d3.json("https://unpkg.com/world-atlas@1/world/50m.json", function(error, world) {
