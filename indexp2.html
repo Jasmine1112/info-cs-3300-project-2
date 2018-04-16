@@ -8,6 +8,7 @@
     <script src="//d3js.org/topojson.v1.min.js"></script>
     <script src="/datamaps.world.min.js"></script>
     <script src="defiantJS.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Gaegu|Stylish" rel="stylesheet">
     <!-- <script src="//d3js.org/d3.v4.min.js"></script> -->
     <script
   src="https://code.jquery.com/jquery-3.3.1.js"
@@ -195,14 +196,14 @@ countries = topojson.feature(world, world.objects.countries).features
 var countryData;
 $.getJSON("countryData.json", function(data){
   countryData = data;
-  console.log(countryData);
+  // console.log(countryData);
 });
 
 //get gameInfo per country on iso_a
 var countryGameData;
 $.getJSON("country_top3_tags.json", function(data){
   countryGameData = data;
-  console.log(countryGameData);
+  // console.log(countryGameData);
 });
 
 var svg = d3.select("body").append("svg")
@@ -228,22 +229,215 @@ d3.json("https://unpkg.com/world-atlas@1/world/50m.json", function(error, world)
       .on("click", function(d){
 
         searchString = '//countries[iso=' + d.id + ']/country';
-        console.log(searchString);
-        res = JSON.search(countryData, searchString);
-        console.log(res);
+        // console.log(searchString);
+        var country_clicked = JSON.search(countryData, searchString)[0];
+        console.log(country_clicked);
 
         searchString = '//countries[iso=' + d.id + ']/genres';
-        console.log(searchString);
-        res = JSON.search(countryData, searchString);
-        console.log(res);
+        // console.log(searchString);
+        var genre_arr = JSON.search(countryData, searchString);
+        console.log(genre_arr);
 
       })
       .on("mouseover", function (d){
-        d3.select(this).style("fill", "blue");
+        searchString = '//countries[iso=' + d.id + ']/iso_a';
+        // console.log(searchString);
+        var d_iso_a = JSON.search(countryData, searchString);
+        //if this is indeed interested 10 countries
+        if (d_iso_a.length!=0) {
+          d3.select(this).style("fill", "blue");
+          //add pop up info
+          searchString = '//countries[iso=' + d.id + ']/iso';
+          var d_iso = JSON.search(countryData, searchString);
+          d3.select("#info_box_"+d_iso)
+          .style("display","block");
+          d3.select("#info_line1_"+d_iso)
+          .style("display","block");
+
+          d3.select("#info_line3_"+d_iso)
+          .style("display","block");
+          d3.select("#info_line4_"+d_iso)
+          .style("display","block");
+          d3.select("#info_line5_"+d_iso)
+          .style("display","block");
+
+          
+        }
+      })
+      .on("mousemove",function (d) {
+        searchString = '//countries[iso=' + d.id + ']/iso_a';
+        // console.log(searchString);
+        var d_iso_a = JSON.search(countryData, searchString);
+        //if this is indeed interested 10 countries
+        if (d_iso_a.length!=0) {
+          searchString = '//countries[iso=' + d.id + ']/iso';
+          // console.log(searchString);
+          var d_iso = JSON.search(countryData, searchString);
+          var mouse = [0, 0];
+          mouse = d3.mouse(this);
+          var mouse_x = mouse[0];
+          var mouse_y = mouse[1];
+
+          d3.select("#info_box_"+d_iso)
+          .attr("x",mouse_x+15)
+          .attr("y",mouse_y+15)
+
+          d3.select("#info_line1_"+d_iso)
+          .attr("x",mouse_x+30)
+          .attr("y",mouse_y+40);
+
+          d3.select("#info_line2")
+          .remove();
+
+          svg.append("text")
+          .style("font-size","1em")
+          .style("font-family","'Gaegu', cursive")
+          .attr("id","info_line2")
+          .text("Top Genres:")
+          .attr("x",mouse_x+30)
+          .attr("y",mouse_y+55);
+
+          d3.select("#info_line3_"+d_iso)
+          .attr("x",mouse_x+30)
+          .attr("y",mouse_y+70);
+
+          d3.select("#info_line4_"+d_iso)
+          .attr("x",mouse_x+30)
+          .attr("y",mouse_y+85);
+
+          d3.select("#info_line5_"+d_iso)
+          .attr("x",mouse_x+30)
+          .attr("y",mouse_y+100);
+
+          // d3.select("#info_line2")
+          // .attr("x",mouse_x+35)
+          // .attr("y",mouse_y+45);
+
+        }
       })
       .on("mouseout", function(d) {
-        d3.select(this).style("fill", "black")
+        d3.select(this).style("fill", "#DCDCDC");
+        searchString = '//countries[iso=' + d.id + ']/iso';
+        var d_iso = JSON.search(countryData, searchString);
+
+        d3.select("#info_box_"+d_iso)
+        .style("display","none");
+        d3.select("#info_line1_"+d_iso)
+        .style("display","none");
+        d3.select("#info_line2")
+        .remove();
+        d3.select("#info_line3_"+d_iso)
+        .style("display","none");
+        d3.select("#info_line4_"+d_iso)
+        .style("display","none");
+        d3.select("#info_line5_"+d_iso)
+        .style("display","none");
+        // .style("display","none");
       });
+
+  //add info box 
+  var info_box_width = "150";
+  var info_box_height = "120";
+  var info_boxes = svg.selectAll(".info_boxes")
+  .data(countries);
+
+  info_boxes = info_boxes.enter().insert("rect")
+  .filter(function (d) {
+    searchString = '//countries[iso=' + d.id + ']/iso_a';
+        searchString = '//countries[iso=' + d.id + ']/iso_a';
+        var d_iso_a = JSON.search(countryData, searchString);
+        //if this is indeed interested 10 countries
+        return d_iso_a.length!=0
+  })
+  .attr("width",info_box_width)
+  .attr("height",info_box_height)
+  .merge(info_boxes);
+
+  info_boxes
+  .attr("class","info_boxes")
+  .attr("id",function (d) {
+    searchString = '//countries[iso=' + d.id + ']/iso';
+    var d_iso = JSON.search(countryData, searchString);
+    return "info_box_"+d_iso;
+  })
+  .style("display","none")
+  .style("fill","#b5c7e5")
+  .attr("rx","15")
+  .attr("ry","15")
+
+  //add line1
+  var info_line1s = svg.selectAll(".info_line1s")
+  .data(countries);
+
+  info_line1s = info_line1s.enter().insert("text")
+  .filter(function (d) {
+    searchString = '//countries[iso=' + d.id + ']/iso_a';
+        searchString = '//countries[iso=' + d.id + ']/iso_a';
+        var d_iso_a = JSON.search(countryData, searchString);
+        //if this is indeed interested 10 countries
+        return d_iso_a.length!=0
+  })
+  .style("font-size","1em")
+  .style("font-family","'Gaegu', cursive")
+  .style("display","none")
+  .merge(info_line1s);
+
+  info_line1s
+  .attr("class","info_line1s")
+  .attr("id",function (d) {
+    searchString = '//countries[iso=' + d.id + ']/iso';
+    var d_iso = JSON.search(countryData, searchString);
+    return "info_line1_"+d_iso;
+  })
+  .text(function (d) {
+    searchString = '//countries[iso=' + d.id + ']/country';
+    var d_country = JSON.search(countryData, searchString);
+    return "Country: "+d_country
+  });
+
+  for (var i = 3; i < 6; i++) {
+    //add line3,4,5
+    var info_lineis = svg.selectAll(".info_line"+i+"s")
+    .data(countries);
+
+    info_lineis = info_lineis.enter().insert("text")
+    .filter(function (d) {
+      searchString = '//countries[iso=' + d.id + ']/iso_a';
+          searchString = '//countries[iso=' + d.id + ']/iso_a';
+          var d_iso_a = JSON.search(countryData, searchString);
+          //if this is indeed interested 10 countries
+          return d_iso_a.length!=0
+    })
+    .style("font-size","1em")
+    .style("font-family","'Gaegu', cursive")
+    .style("display","none")
+    .merge(info_lineis);
+
+    info_lineis
+    .attr("class","info_line"+i+"s")
+    .attr("id",function (d) {
+      searchString = '//countries[iso=' + d.id + ']/iso';
+      var d_iso = JSON.search(countryData, searchString);
+      return "info_line"+i+"_"+d_iso;
+    })
+    .text(function (d) {
+      searchString = '//countries[iso=' + d.id + ']/genres';
+      var d_genre_i = JSON.search(countryData, searchString)[i-3];
+      return i-2+". "+d_genre_i
+    });
+  }
+
+  // .html(function (d) {
+  //   searchString = '//countries[iso=' + d.id + ']/country';
+  //   var d_country = JSON.search(countryData, searchString);
+  //   searchString = '//countries[iso=' + d.id + ']/genres';
+  //   var d_genre = JSON.search(countryData, searchString);
+  //   var line1 = "Country: "+d_country+"<br>";
+  //   var line2 = "Top 3 Genres: <br>";
+  //   var line3 = d_genre[0]+"<br>";
+  //   var line3 = d_genre[1]+"<br>";
+  //   var line3 = d_genre[2]+"<br>";
+  // })
 
   /*countries = topojson.feature(world, world.objects.countries).features
 

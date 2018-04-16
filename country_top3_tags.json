@@ -1,4 +1,4 @@
-[{ "countries" : [
+[
   {"country" : "BRA", "genres": ["Shooter", "Strategy", "Open World"]},
   {"country" : "DEU", "genres": ["Open World", "Shooter", "Atmospheric"]},
   {"country" : "AUS", "genres": ["Open World", "Strategy", "Atmospheric"]},
@@ -9,4 +9,4 @@
   {"country" : "CAN", "genres": ["Open World", "Strategy", "Atmospheric"]},
   {"country" : "GBR", "genres": ["Open World", "Strategy", "Atmospheric"]},
   {"country" : "RUS", "genres": ["Shooter", "Atmospheric", "Strategy"]}
-]}]
+]
