@@ -235,16 +235,19 @@ d3.json("https://unpkg.com/world-atlas@1/world/50m.json", function(error, world)
       .enter().append("path")
       .attr("d", path)
       .on("click", function(d){
+
         searchString = '//countries[iso=' + d.id + ']/country';
         console.log(searchString);
         res = JSON.search(countryData, searchString);
         console.log(res);
+
         searchString = '//countries[iso=' + d.id + ']/genres';
         console.log(searchString);
         res = JSON.search(countryData, searchString);
         console.log(res);
 
       });
+      
 
 
 });
