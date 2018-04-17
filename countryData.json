@@ -1,5 +1,5 @@
 [{"countries" : [
-    {"country" : "Andorra","iso" : "020"},
+    {"country" : "Andorra","iso" : "020", "color": "blue"},
     {"country" : "United Arab Emirates","iso" : "784"},
     {"country" : "Afghanistan","iso" : "004"},
     {"country" : "Antigua and Barbuda","iso" : "028"},
@@ -231,7 +231,7 @@
     {"country" : "Ukraine","iso" : "804"},
     {"country" : "Uganda","iso" : "800"},
     {"country" : "U.S. Minor Outlying Islands","iso" : "581"},
-    {"country" : "United States","iso" : "840", "iso_a" : "USA", "genres": ["Open World", "Shooter", "Atmospheric"]},
+    {"country" : "United States","iso" : "840", "iso_a" : "USA", "genres": ["Open World", "Shooter", "Atmospheric"], "color" : "blue"},
     {"country" : "Uruguay","iso" : "858"},
     {"country" : "Uzbekistan","iso" : "860"},
     {"country" : "Vatican City","iso" : "336"},

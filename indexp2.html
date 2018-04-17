@@ -79,10 +79,44 @@
   stroke-width: 0.5px;
 }
 
+.SVGmiddle {
+  margin-top: 25px;
+  margin-left: 20%
+}
+
+.introText {
+  font-size: 32pt;
+  margin-left: 28%;
+  margin-top: 20px;
+  font-family: Arial;
+}
+
+.introText2 {
+  font-size: 20pt;
+  margin-left: 34%;
+  margin-top: 5px;
+}
+
+.introText3 {
+  font-size: 16pt;
+  margin-left: 38%;
+  margin-top: 5px;
+}
+
+.introText4 {
+  font-size: 4pt;
+  margin-left: 41%;
+  margin-top: 5px;
+}
+
 
 </style>
 <body>
   <!--<<div id="container" style="position: absolute; width: 1500px; height: 800px; z-index: -1;"></div>-->
+  <p class="introText">Top Video Game Genres Around The World*</p>
+  <p class="introText2">Do America's love of guns translate to virtual reality?</p>
+  <p class="introText3">Is France as infatuated with Strategy as Napoleon?</p>
+  <p class="introText3">Are Canadians as nice online as they are offline?</p>
 
   <script>
 /*
@@ -174,8 +208,8 @@
         });
         */
 
-var width = 960,
-    height = 480;
+var width = 1000,
+    height = 500;
 
 var projection = d3.geoEquirectangular()
     .scale(height / Math.PI)
@@ -208,7 +242,8 @@ $.getJSON("country_top3_tags.json", function(data){
 
 var svg = d3.select("body").append("svg")
     .attr("width", width)
-    .attr("height", height);
+    .attr("height", height)
+    .attr("class", "SVGmiddle");
 /*
 svg.append("path")
     .datum(graticule)
@@ -226,6 +261,14 @@ d3.json("https://unpkg.com/world-atlas@1/world/50m.json", function(error, world)
     .enter().insert("path", ".boundary")
       .attr("class", "land")
       .attr("d", path)
+      .style("fill", function(d){
+        var searchStringColor = '//countries[iso=' + d.id + ']/color';
+        console.log(searchStringColor)
+        var res = JSON.search(countryData, searchStringColor)
+        var color = res[0]
+        console.log(color)
+        return color;
+      })
       .on("click", function(d){
 
         searchString = '//countries[iso=' + d.id + ']/country';
@@ -261,7 +304,7 @@ d3.json("https://unpkg.com/world-atlas@1/world/50m.json", function(error, world)
           d3.select("#info_line5_"+d_iso)
           .style("display","block");
 
-          
+
         }
       })
       .on("mousemove",function (d) {
@@ -335,7 +378,7 @@ d3.json("https://unpkg.com/world-atlas@1/world/50m.json", function(error, world)
         // .style("display","none");
       });
 
-  //add info box 
+  //add info box
   var info_box_width = "150";
   var info_box_height = "120";
   var info_boxes = svg.selectAll(".info_boxes")
