@@ -9,6 +9,7 @@
     <script src="/datamaps.world.min.js"></script>
     <script src="defiantJS.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Gaegu|Stylish" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Barlow+Condensed" rel="stylesheet">
     <!-- <script src="//d3js.org/d3.v4.min.js"></script> -->
     <script
   src="https://code.jquery.com/jquery-3.3.1.js"
@@ -61,6 +62,9 @@
   opacity: 0.8;
 }
 */
+body{
+  text-align:center;
+}
 
 .graticule {
   fill: none;
@@ -80,26 +84,25 @@
 }
 
 .SVGmiddle {
-  margin-top: 25px;
-  margin-left: 20%
+  margin-top: 10px;
+
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .introText {
   font-size: 32pt;
-  margin-left: 28%;
   margin-top: 20px;
-  font-family: Arial;
+  font-family: "Barlow";
 }
 
 .introText2 {
   font-size: 20pt;
-  margin-left: 34%;
   margin-top: 5px;
 }
 
 .introText3 {
   font-size: 16pt;
-  margin-left: 38%;
   margin-top: 5px;
 }
 
@@ -109,106 +112,57 @@
   margin-top: 5px;
 }
 
+.icon_selector {
+  background-color: pink;
+  display: inline-block;
+  padding-left: 1em;
+  padding-right: 1em;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  margin: 2em;
+  border-radius: 25px;
+}
+
+.icon_selector{
+
+}
+
+.icon_selector :hover{
+  cursor: pointer; 
+}
+
 
 </style>
 <body>
   <!--<<div id="container" style="position: absolute; width: 1500px; height: 800px; z-index: -1;"></div>-->
-  <p class="introText">Top Video Game Genres Around The World*</p>
+  <p class="introText">Top Video Game Types Around The World</p>
   <p class="introText2">Do America's love of guns translate to virtual reality?</p>
   <p class="introText3">Is France as infatuated with Strategy as Napoleon?</p>
   <p class="introText3">Are Canadians as nice online as they are offline?</p>
 
+  <div id="icons_nav" >
+    <div class="icon_selector" id="atmospheric" >
+      <!-- <img src="icons/strategy.png" width="50px"> -->
+      <span>Atmospheric</span>
+    </div>
+    <div class="icon_selector" id="shooter" >
+      <!-- <img src="icons/shooter.png" id="shooter" width="50px"> -->
+      <span>Shooter</span>
+    </div>
+    <div class="icon_selector" id="strategy" >
+      <!-- <img src="icons/strategy.png" width="50px"> -->
+      <span>Strategy</span>
+    </div>
+    <div class="icon_selector" id="open_world" >
+      <!-- <img src="icons/strategy.png" width="50px"> -->
+      <span>Open World</span>
+    </div>
+    
+  </div>
+
   <script>
-/*
-    var usedCountries_color = "#7599d8"
-     var map = new Datamap({element: document.getElementById('container'),
-      fills: {
-        // defaultFill: "#ABDDA4",
-        defaultFill: "#616977",
-        // usedCountries: "#fa0fa0"
-        usedCountries: usedCountries_color
-      },
-      data: {
-          USA: { fillKey: "usedCountries" },
-          AUS: { fillKey: "usedCountries" },
-          BRA: { fillKey: "usedCountries" },
-          CAN: { fillKey: "usedCountries" },
-          GBR: { fillKey: "usedCountries" },
-          CHN: { fillKey: "usedCountries" },
-          FRA: { fillKey: "usedCountries" },
-          DEU: { fillKey: "usedCountries" },
-          POL: { fillKey: "usedCountries" },
-          RUS: { fillKey: "usedCountries" },
-      },
-      geographyConfig: {
-        highlightFillColor: "#8fd8d2",
-        //this is the customization template
-        // borderWidth: 1,
-        // borderOpacity: 1,
-        // borderColor: '#fff',
-        // popupOnHover: true,
-        // highlightOnHover: true,
-        // highlightFillColor: function(data) {
-        //   if (data.fillKey) {
-        //     return 'green';
-        //   }
-        //   return '#dbdbdb';
-        // },
-        // highlightBorderColor: '#fff',
-        // popupTemplate: function(geo, data) {
-        //   // don't show tooltip if country don't present in dataset
-        //   if (!data) {
-        //     return;
-        //   }
-        //   // tooltip content
-        //   return ['',
-        //           '<div class ="hoverinfo">' + geo.properties.name, ''
-        //          ].join('');
-        // }
-      },
-
-      done: function(datamap) {
-            datamap.svg.selectAll('.datamaps-subunit').on('click', function(geography) {
-
-              if(geography.properties.name == "United States of America"){
-                geography.properties.name = "USA";
-              }
-              if(geography.properties.name == "United Kingdom"){
-                geography.properties.name = "GBR";
-              }
-              var name = geography.properties.name;
-              var natDataBox = name.replace(" ","-") + "-dataBox";
-
-
-
-              if($(natDataBox).length > 0){
-                console.log("xd");
-                document.getElementById(natDataBox).className = document.getElementById(natDataBox).className.replace( 'open_country_box' , '' );
-                document.getElementById(natDataBox).className += " close_country_box";
-
-                setTimeout( function(){
-                        $(natDataBox).remove();
-                },1001);
-                console.log($(natDataBox));
-
-                return;
-              }
-              var centroid = map.path.centroid(geography);
-              console.log(geography.properties.name);
-              console.log(centroid);
-
-              var dataBox = document.createElement(natDataBox);
-              var newX = centroid[0];
-              dataBox.innerHTML = '<div id="'+natDataBox+'" class="country_box open_country_box" style="margin-left:' + newX + 'px' + ';' + ' margin-top:' + centroid[1] + 'px' + ';' + '"' + '>';
-              document.body.appendChild(dataBox);
-
-            });
-
-          }
-        });
-        */
-
-var width = 1000,
+    
+var width = 1200,
     height = 500;
 
 var projection = d3.geoEquirectangular()
@@ -221,10 +175,6 @@ var path = d3.geoPath()
 var graticule = d3.geoGraticule();
 
 
-/*d3.json("world.json",function(error, world){
-if(error) throw error;
-countries = topojson.feature(world, world.objects.countries).features
-});*/
 
 //get country data, iso_a, name, etc.
 var countryData;
@@ -235,24 +185,35 @@ $.getJSON("countryData.json", function(data){
 
 //get gameInfo per country on iso_a
 var countryGameData;
+var genre_countries={};
 $.getJSON("country_top3_tags.json", function(data){
   countryGameData = data;
   // console.log(countryGameData);
+  var countries;
+  countryGameData.forEach(function(country_genre) {
+    var country = country_genre["country"]
+    country_genre["genres"].forEach(function(genre) {
+      genre = genre.toLowerCase().replace(" ","_");
+      if (genre in genre_countries) {
+        genre_countries[genre].push(country);
+      }else{
+        genre_countries[genre] = [country];
+      }
+    })
+  });
+  
 });
 
 var svg = d3.select("body").append("svg")
     .attr("width", width)
     .attr("height", height)
     .attr("class", "SVGmiddle");
-/*
-svg.append("path")
-    .datum(graticule)
-    .attr("class", "graticule") //, "graticule"
-    .attr("d", path);
-*/
-var countries;
+
 
 d3.json("https://unpkg.com/world-atlas@1/world/50m.json", function(error, world) {
+
+
+
   if (error) throw error;
   var countries = topojson.feature(world, world.objects.countries).features;
 
@@ -260,17 +221,28 @@ d3.json("https://unpkg.com/world-atlas@1/world/50m.json", function(error, world)
       .data(countries)
     .enter().insert("path", ".boundary")
       .attr("class", "land")
+      .attr("id",function(d) {
+        return "land_"+d.id;
+      })
       .attr("d", path)
+      .style("stroke",function (d) {
+        var searchStringColor = '//countries[iso=' + d.id + ']/color';
+        var color_arr = JSON.search(countryData, searchStringColor);
+        if (color_arr.length!=0) {
+          var stroke = "#a5454c";
+        }else{
+          var stroke = "none";
+        }
+        return stroke;
+      })
       .style("fill", function(d){
         var searchStringColor = '//countries[iso=' + d.id + ']/color';
-        console.log(searchStringColor);
         var color_arr = JSON.search(countryData, searchStringColor);
         if (color_arr.length!=0) {
           var color = color_arr[0];
         }else{
           var color = "#DCDCDC";
         }
-        console.log(color)
         return color;
       })
       .on("click", function(d){
@@ -278,12 +250,10 @@ d3.json("https://unpkg.com/world-atlas@1/world/50m.json", function(error, world)
         searchString = '//countries[iso=' + d.id + ']/country';
         // console.log(searchString);
         var country_clicked = JSON.search(countryData, searchString)[0];
-        console.log(country_clicked);
 
         searchString = '//countries[iso=' + d.id + ']/genres';
         // console.log(searchString);
         var genre_arr = JSON.search(countryData, searchString);
-        console.log(genre_arr);
 
       })
       .on("mouseover", function (d){
@@ -356,9 +326,6 @@ d3.json("https://unpkg.com/world-atlas@1/world/50m.json", function(error, world)
           .attr("x",mouse_x+30)
           .attr("y",mouse_y+100);
 
-          // d3.select("#info_line2")
-          // .attr("x",mouse_x+35)
-          // .attr("y",mouse_y+45);
 
         }
       })
@@ -394,19 +361,54 @@ d3.json("https://unpkg.com/world-atlas@1/world/50m.json", function(error, world)
         // .style("display","none");
       });
 
+
+  //add effect of hovering on icon
+  d3.selectAll(".icon_selector")
+  .on("mouseover",function() {
+    var genre = d3.select(this).attr("id").toLowerCase().replace(" ","_");
+    var countries_with_genre = genre_countries[genre];
+    console.log(countries_with_genre);
+    countries_with_genre.forEach(function(country) {
+      var country_iso = "";
+      countryData[0]["countries"].forEach(function(country_row) {
+        if ("iso_a" in country_row && country_row["iso_a"]==country) {
+          country_iso = country_row["iso"];
+          return;
+        }
+      });
+        
+      console.log(country_iso);
+
+      d3.select("#land_"+country_iso)
+      .style("fill","#c45c71");
+    });
+    
+  })
+  .on("mouseout",function() {
+      countryData[0]["countries"].forEach(function(country_row) {
+        if ("iso_a" in country_row) {
+          var country_iso = country_row["iso"];
+          d3.select("#land_"+country_iso)
+          .style("fill","#ff9999");
+        }
+      });
+
+  });
+    
+
+
   //add info box
-  var info_box_width = "150";
-  var info_box_height = "120";
+  var info_box_width = "180";
+  var info_box_height = "100";
   var info_boxes = svg.selectAll(".info_boxes")
   .data(countries);
 
   info_boxes = info_boxes.enter().insert("rect")
   .filter(function (d) {
     searchString = '//countries[iso=' + d.id + ']/iso_a';
-        searchString = '//countries[iso=' + d.id + ']/iso_a';
-        var d_iso_a = JSON.search(countryData, searchString);
-        //if this is indeed interested 10 countries
-        return d_iso_a.length!=0
+    var d_iso_a = JSON.search(countryData, searchString);
+    //if this is indeed interested 10 countries
+    return d_iso_a.length!=0
   })
   .attr("width",info_box_width)
   .attr("height",info_box_height)
@@ -486,73 +488,17 @@ d3.json("https://unpkg.com/world-atlas@1/world/50m.json", function(error, world)
     });
   }
 
-  // .html(function (d) {
-  //   searchString = '//countries[iso=' + d.id + ']/country';
-  //   var d_country = JSON.search(countryData, searchString);
-  //   searchString = '//countries[iso=' + d.id + ']/genres';
-  //   var d_genre = JSON.search(countryData, searchString);
-  //   var line1 = "Country: "+d_country+"<br>";
-  //   var line2 = "Top 3 Genres: <br>";
-  //   var line3 = d_genre[0]+"<br>";
-  //   var line3 = d_genre[1]+"<br>";
-  //   var line3 = d_genre[2]+"<br>";
-  // })
-
-  /*countries = topojson.feature(world, world.objects.countries).features
-
-  svg.insert("path", "graticule") //, "graticule"
-      .datum(topojson.feature(world, world.objects.land))
-      .attr("class", "land")
-      .attr("d", path);
-
-  svg.insert("path", "graticule") //, "graticule"
-      .datum(topojson.mesh(world, world.objects.countries, function(a, b) { return a !== b; }))
-      .attr("class", "boundary")
-      .attr("d", path);
-
-      d3.select("svg").selectAll("path")
-      .data(countries)
-      .enter().append("path")
-      .attr("d", path)
-      .on("click", function(d){
-
-        searchString = '//countries[iso=' + d.id + ']/country';
-        console.log(searchString);
-        res = JSON.search(countryData, searchString);
-        console.log(res);
-
-        searchString = '//countries[iso=' + d.id + ']/genres';
-        console.log(searchString);
-        res = JSON.search(countryData, searchString);
-        console.log(res);
-
-      });*/
 
 
 
 });
-
-/*
-        searchString2 = '//countries[country=' + isoVar + ']/genres';
-        console.log(searchString);
-        res2 = JSON.search(countryGameData, searchString2);
-        console.log(res2);
-
-      })
-      .on("mouseover",function(d){
-        var currentState = this;
-        d3.select(this).style('fill', "red");
-        console.log(d.id);
-        searchString = '//countries[iso=' + d.id + ']/iso_a';
-        res = JSON.search(countryData, searchString);
-        console.log(res);
-      });
-
-
-});
-*/
+d3.select("body")
+.append("div")
+.attr("id","pie_chart_div")
+.html("<h3>So who owns the most zombies/anime/sports/... games?</h3>")
 
 
   </script>
+
 </body>
 </html>
