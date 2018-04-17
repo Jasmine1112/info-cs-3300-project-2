@@ -292,7 +292,7 @@ d3.json("https://unpkg.com/world-atlas@1/world/50m.json", function(error, world)
         var d_iso_a = JSON.search(countryData, searchString);
         //if this is indeed interested 10 countries
         if (d_iso_a.length!=0) {
-          d3.select(this).style("fill", "blue");
+          d3.select(this).style("opacity", "0.5");
           //add pop up info
           searchString = '//countries[iso=' + d.id + ']/iso';
           var d_iso = JSON.search(countryData, searchString);
@@ -363,6 +363,7 @@ d3.json("https://unpkg.com/world-atlas@1/world/50m.json", function(error, world)
         }
       })
       .on("mouseout", function(d) {
+        d3.select(this).style("opacity", "1")
         d3.select(this).style("fill", function () {
           var searchStringColor = '//countries[iso=' + d.id + ']/color';
           console.log(searchStringColor);
