@@ -263,9 +263,13 @@ d3.json("https://unpkg.com/world-atlas@1/world/50m.json", function(error, world)
       .attr("d", path)
       .style("fill", function(d){
         var searchStringColor = '//countries[iso=' + d.id + ']/color';
-        console.log(searchStringColor)
-        var res = JSON.search(countryData, searchStringColor)
-        var color = res[0]
+        console.log(searchStringColor);
+        var color_arr = JSON.search(countryData, searchStringColor);
+        if (color_arr.length!=0) {
+          var color = color_arr[0];
+        }else{
+          var color = "#DCDCDC";
+        }
         console.log(color)
         return color;
       })
@@ -359,7 +363,18 @@ d3.json("https://unpkg.com/world-atlas@1/world/50m.json", function(error, world)
         }
       })
       .on("mouseout", function(d) {
-        d3.select(this).style("fill", "#DCDCDC");
+        d3.select(this).style("fill", function () {
+          var searchStringColor = '//countries[iso=' + d.id + ']/color';
+          console.log(searchStringColor);
+          var color_arr = JSON.search(countryData, searchStringColor);
+          if (color_arr.length!=0) {
+            var color = color_arr[0];
+          }else{
+            var color = "#DCDCDC";
+          }
+          console.log(color)
+          return color;
+        });
         searchString = '//countries[iso=' + d.id + ']/iso';
         var d_iso = JSON.search(countryData, searchString);
 
